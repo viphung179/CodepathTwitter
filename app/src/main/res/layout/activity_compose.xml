@@ -30,10 +30,22 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textInput_counter"
+        android:id="@+id/textInput_count"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text = "280"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etTweetCompose" />
+
+    <TextView
+        android:id="@+id/textLimit"
+        android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = " characters remaining out of 280"
+        app:layout_constraintStart_toEndOf="@id/textInput_count"
         app:layout_constraintTop_toBottomOf="@+id/etTweetCompose" />
 
 

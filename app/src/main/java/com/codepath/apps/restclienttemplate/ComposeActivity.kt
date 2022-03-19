@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import com.codepath.apps.restclienttemplate.models.Tweet
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
@@ -17,7 +18,7 @@ class ComposeActivity : AppCompatActivity() {
 
     lateinit var etCompose: EditText
     lateinit var btnTweet: Button
-
+    lateinit var composeCount: TextView
     lateinit var client: TwitterClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,22 +26,23 @@ class ComposeActivity : AppCompatActivity() {
         setContentView(R.layout.activity_compose)
 
         etCompose = findViewById(R.id.etTweetCompose)
+        composeCount = findViewById(R.id.textInput_count)
         btnTweet = findViewById(R.id.btnTweet)
 
         client = TwitterApplication.getRestClient(this)
 
         etCompose.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                TODO("Not yet implemented")
-            }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                TODO("Not yet implemented")
+                val textCount = etCompose.text.length
+                composeCount.text = (280 - textCount).toString()
+                btnTweet.isEnabled = textCount <= 280
             }
 
-            override fun afterTextChanged(p0: Editable?) {
-                TODO("Not yet implemented")
-            }
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+
+            override fun afterTextChanged(p0: Editable?) {}
 
         })
 
@@ -50,8 +52,8 @@ class ComposeActivity : AppCompatActivity() {
             if (tweetContent.isEmpty()) {
                 Toast.makeText(this, "Empty tweets not allowed!", Toast.LENGTH_SHORT).show()
             } else
-                if (tweetContent.length > 140) {
-                    Toast.makeText(this, "Tweet is too long! Limit is 140 characters", Toast.LENGTH_SHORT).show()
+                if (tweetContent.length > 280) {
+                    Toast.makeText(this, "Tweet is too long! Limit is 280 characters", Toast.LENGTH_SHORT).show()
                 } else {
                     client.publishTweet(tweetContent, object: JsonHttpResponseHandler() {
 
